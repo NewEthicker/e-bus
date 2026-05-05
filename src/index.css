@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #111827;
+}
+
+.maplibregl-map {
+  font-family: inherit;
+}
+
+.maplibregl-ctrl-attrib {
+  border-radius: 10px 0 0 0;
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #475569;
+  font-size: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #2563eb;
+}
+
+.maplibregl-ctrl-bottom-right {
+  right: 8px;
+  bottom: 8px;
+}
+
+/* Hide scrollbar for destination chips */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Breathing/radiate animation for live status dot */
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+  50% { box-shadow: 0 0 0 2px currentColor; opacity: 0.4; }
+}
+
+.dot-breathe {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* Bus Alert Card Styles - Improved for Dark Mode & Positioning */
+.bus-alert-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 128px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-size: 11px;
+  line-height: 1.3;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 100ms linear;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  z-index: 70; /* Above map/routes, below popups */
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+/* Light mode background */
+:root:not(.dark) .bus-alert-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Dark mode background */
+.dark .bus-alert-card {
+  background-color: rgba(35, 33, 33, 0.95);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 0s 2;
+}
+
+.bus-alert-card .alert-time {
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+}
+
+.bus-alert-card .alert-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.bus-alert-card .alert-updated {
+  font-size: 9px;
+  opacity: 0.6;
+  margin-top: 3px;
+}
+
+/* Clean Message Popup Styles */
+.user-msg-popup .maplibregl-popup-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.user-msg-popup .maplibregl-popup-tip {
+  display: none !important;
+}
+
+@keyframes msg-fade-up {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.msg-animate {
+  animation: msg-fade-up 200ms ease-out forwards;
+}
+
+@keyframes bus-popup-in {
+  0% { opacity: 0; scale: 0.98; }
+  100% { opacity: 1; scale: 1; }
+}
+
+@keyframes bus-backdrop-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.bus-popup-in {
+  animation: bus-popup-in 180ms ease-out forwards;
+}
+
+.bus-backdrop-in {
+  animation: bus-backdrop-in 180ms ease-out forwards;
+}
+
+/* Bottom bar button — clean tap feedback, no blur, no squish */
+.nav-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.nav-btn-light:active {
+  background-color: rgba(148, 163, 184, 0.18);
+}
+
+.nav-btn-dark:active {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (hover: hover) {
+  .nav-btn-light:hover {
+    background-color: rgba(148, 163, 184, 0.10);
+  }
+  .nav-btn-dark:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Toggle ON state — neutral grey-white background only */
+.nav-btn-on-light {
+  background-color: rgba(148, 163, 184, 0.22);
+}
+.nav-btn-on-light:active {
+  background-color: rgba(148, 163, 184, 0.30);
+}
+
+.nav-btn-on-dark {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.nav-btn-on-dark:active {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+@media (hover: hover) {
+  .nav-btn-on-light:hover {
+    background-color: rgba(148, 163, 184, 0.26);
+  }
+  .nav-btn-on-dark:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
