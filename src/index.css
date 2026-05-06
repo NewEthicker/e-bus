@@ -12,11 +12,68 @@ body,
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f8fafc;
+  color: rgb(35, 32, 32);
+  --bottom-nav-height: 54px;
+}
+
+.dark body {
   background: #111827;
+  color: #f8fafc;
 }
 
 .maplibregl-map {
   font-family: inherit;
+}
+
+.map-shell {
+  background-color: #eef3ef;
+  background-image:
+    linear-gradient(35deg, transparent 0 44%, rgba(148, 163, 184, 0.22) 45% 46%, transparent 47%),
+    linear-gradient(145deg, transparent 0 48%, rgba(20, 184, 166, 0.16) 49% 50%, transparent 51%),
+    linear-gradient(rgba(35, 32, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 32, 32, 0.035) 1px, transparent 1px);
+  background-size: 220px 220px, 260px 260px, 44px 44px, 44px 44px;
+  background-position: -40px 30px, 50px -20px, 0 0, 0 0;
+}
+
+.dark .map-shell {
+  background-color: rgb(31, 31, 31);
+  background-image:
+    linear-gradient(35deg, transparent 0 44%, rgba(148, 163, 184, 0.14) 45% 46%, transparent 47%),
+    linear-gradient(145deg, transparent 0 48%, rgba(94, 234, 212, 0.12) 49% 50%, transparent 51%),
+    linear-gradient(rgba(226, 232, 240, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 232, 240, 0.035) 1px, transparent 1px);
+}
+
+.bottom-nav {
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.bottom-nav .nav-btn {
+  min-height: var(--bottom-nav-height);
+}
+
+.bottom-nav .nav-label {
+  color: #64748b;
+  margin-top: 1px;
+  font-size: 9.8px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dark .bottom-nav .nav-label {
+  color: #94a3b8;
+}
+
+@media (min-width: 640px) {
+  body {
+    --bottom-nav-height: 48px;
+  }
 }
 
 .maplibregl-ctrl-attrib {
@@ -27,13 +84,22 @@ body {
   backdrop-filter: blur(10px);
 }
 
+.dark .maplibregl-ctrl-attrib {
+  background: rgba(35, 32, 32, 0.72) !important;
+  color: #e2e8f0;
+}
+
 .maplibregl-ctrl-attrib a {
   color: #2563eb;
 }
 
+.dark .maplibregl-ctrl-attrib a {
+  color: #38bdf8;
+}
+
 .maplibregl-ctrl-bottom-right {
   right: 8px;
-  bottom: 8px;
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 8px);
 }
 
 /* Hide scrollbar for destination chips */
@@ -60,29 +126,30 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 128px;
-  padding: 8px 12px;
-  border-radius: 14px;
+  width: 140px;
+  padding: 10px 14px;
+  border-radius: 16px;
   font-size: 11px;
   line-height: 1.3;
-  pointer-events: none;
-  transition: opacity 200ms ease, transform 100ms linear;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  z-index: 70; /* Above map/routes, below popups */
+  pointer-events: auto;
+  transition: opacity 180ms ease, transform 180ms ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  z-index: 9999 !important;
   text-align: center;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 }
 
 /* Light mode background */
 :root:not(.dark) .bus-alert-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0,0,0,0.05);
+  background-color: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(35, 32, 32, 0.08);
 }
 
 /* Dark mode background */
 .dark .bus-alert-card {
-  background-color: rgba(35, 33, 33, 0.95);
-  border: 1px solid rgba(255,255,255,0.15);
+  background-color: rgba(35, 32, 32, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #e2e8f0;
 }
 
 @keyframes shake {
@@ -111,10 +178,30 @@ body {
   font-weight: 500;
 }
 
-.bus-alert-card .alert-updated {
-  font-size: 9px;
-  opacity: 0.6;
-  margin-top: 3px;
+.bus-alert-card .alert-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.bus-alert-card .alert-close:hover {
+  opacity: 1;
+}
+
+.dark .bus-alert-card .alert-close {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* Clean Message Popup Styles */
@@ -166,7 +253,16 @@ body {
   border: none;
   outline: none;
   background-color: transparent;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease, transform 120ms ease, box-shadow 120ms ease;
+  min-width: 0;
+  width: 100%;
+}
+
+.nav-btn:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
 }
 
 .nav-btn-light:active {
@@ -188,17 +284,19 @@ body {
 
 /* Toggle ON state — neutral grey-white background only */
 .nav-btn-on-light {
-  background-color: rgba(148, 163, 184, 0.22);
+  background-color: rgba(148, 163, 184, 0.24);
+  color: rgb(35, 32, 32);
 }
 .nav-btn-on-light:active {
-  background-color: rgba(148, 163, 184, 0.30);
+  background-color: rgba(148, 163, 184, 0.34);
 }
 
 .nav-btn-on-dark {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.10);
+  color: #f8fafc;
 }
 .nav-btn-on-dark:active {
-  background-color: rgba(255, 255, 255, 0.18);
+  background-color: rgba(255, 255, 255, 0.16);
 }
 
 @media (hover: hover) {
@@ -206,6 +304,6 @@ body {
     background-color: rgba(148, 163, 184, 0.26);
   }
   .nav-btn-on-dark:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.10);
   }
 }
