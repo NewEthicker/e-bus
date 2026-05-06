@@ -739,6 +739,7 @@ export default function App() {
 
     const bounds = new maplibregl.LngLatBounds(allPoints[0], allPoints[0]);
     allPoints.forEach((pt) => bounds.extend(pt));
+
     map.fitBounds(bounds, {
       padding: { top: userAlerts.length > 0 ? 150 : 90, bottom: 60, left: 50, right: 50 },
       maxZoom: 15,
@@ -817,13 +818,13 @@ export default function App() {
     };
 
     mapRef.current.on('zoomstart', () => {
-      if (mapRef.current) return;
+      if (!mapRef.current) return;
       zoomStartValue = mapRef.current.getZoom();
       isMajorZoomOut = false;
     });
 
     mapRef.current.on('zoom', () => {
-      if (mapRef.current) return;
+      if (!mapRef.current) return;
       const currentZoom = mapRef.current.getZoom();
       isMajorZoomOut = zoomStartValue - currentZoom >= 1.25;
     });
@@ -1841,7 +1842,7 @@ export default function App() {
                       if (passByEstimate.status !== 'missed') {
                         setActiveAlert({ busIdx: selectedBus, step: 'select' });
                       } else {
-                        const btn = e.currentButton;
+                        const btn = e.currentTarget;
                         btn.classList.add('animate-shake');
                         setTimeout(() => btn.classList.remove('animate-shake'), 400);
                       }
